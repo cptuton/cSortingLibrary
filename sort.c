@@ -9,8 +9,9 @@ algorithms
 #include <time.h>
 
 /** Generic swap function
-* @param x -- the first value to be swapped
-* @param y -- the second value to be swapped
+* @param x    -- the first value to be swapped
+* @param y    -- the second value to be swapped
+* @param size -- the size in bytes of x and y
 */
 void swap (void *x, void *y, size_t size)
 {
@@ -112,13 +113,10 @@ void bogo_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, 
 {
     srand (time (NULL));
 
-    int index1 = (rand () % n_mem) * size;
-    int index2 = (rand () % n_mem) * size;
-
     while (!sorted (list, compar, size, n_mem)){
-        swap (list + index1, list + index2, size);
         index1 = (rand () % n_mem) * size;
         index2 = (rand () % n_mem) * size;
+        swap (list + index1, list + index2, size);
     }
 }
 
