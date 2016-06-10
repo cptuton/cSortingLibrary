@@ -1,7 +1,7 @@
 #ifndef _SORT_
 #define _SORT_
 
-#ifndef _NO_ASSERT_
+#ifdef _NO_ASSERT_
 #define NDEBUG
 #endif
 
