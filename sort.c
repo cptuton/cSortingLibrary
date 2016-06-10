@@ -3,9 +3,15 @@
 Sorting library that implements various generic sorting 
 algorithms
 
+
+Authors: Christian Tuton, Elias Flores
+
+File: sort.c
+Date: Summer 2016
+
 ***************************************************************/
 
-#include <sort.h>
+#include "sort.h"
 #include <time.h>
 
 /** Generic swap function
@@ -19,6 +25,13 @@ void swap (void *x, void *y, size_t size)
     memcpy (tmp, x, size);
     memcpy (x, y,   size);
     memcpy (y, tmp, size);
+}
+
+void seed_rand ()
+{
+    #ifndef _RAND_
+    srand (time (NULL));
+    #endif
 }
 
 /** Bubble sort
@@ -111,12 +124,19 @@ void merge (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size
 */
 void bogo_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
 {
-    srand (time (NULL));
+    seed_rand ();
+
+    #ifndef _RAND_
+    #define _RAND_
+    #endif
+
+    int index1 = (rand () % n_mem) * size;
+    int index2 = (rand () % n_mem) * size;
 
     while (!sorted (list, compar, size, n_mem)){
+        swap (list + index1, list + index2, size);
         index1 = (rand () % n_mem) * size;
         index2 = (rand () % n_mem) * size;
-        swap (list + index1, list + index2, size);
     }
 }
 
@@ -192,4 +212,44 @@ void select_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size
         }
         swap (list + min, list + i, size);
     }
+}
+
+/** Heap Sort
+* @param list   -- the list to be sorted
+* @param compar -- the comparison function to compare items in the list
+* @param size   -- the size in bytes of the items in the list
+* @param n_mem  -- the number of items in the list
+*/
+void heap_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
+{
+    heap_t heap = new_heap (list, compar, size, n_mem);
+    int i, j;
+
+    for (i = n_mem * size - size, j = 0; i >= 0; i -= size, j += size){
+        memcpy (list + j, heap, size); // put first element from heap onto list
+        memcpy (heap, heap + i, size); // replace top of heap with bottom
+
+        heap = new_heap (heap, compar, size, n_mem - (j / size));
+    }
+}
+
+/*creates new heap with order imposed by compar*/
+heap_t new_heap (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
+{
+    int i, j;
+
+    heap_t heap = malloc (n_mem * size);
+    assert (heap);
+
+    for (i = 0; i < n_mem * size; i += size){
+        memcpy (heap + i, list + i, size);
+        j = i / size;
+        while ((j - 1) / 2 >= 0 && j - 1 != -1){
+            if (compar (heap + j * size, heap + ((j - 1) / 2) * size))
+                swap (heap + j * size, heap + ((j - 1) / 2) * size, size);
+            j = (j - 1) / 2;
+        }
+    }
+
+    return heap;
 }
