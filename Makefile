@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-g -Wall
 LIB=./
 
-all: sort comparators test_sort
+all: sort comparators
 
 sort: $(LIB)sort.c
 	$(CC) $(CFLAGS) -I$(LIB) -c $(LIB)$@.c
