@@ -130,13 +130,12 @@ void bogo_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, 
     #define _RAND_
     #endif
 
-    int index1 = (rand () % n_mem) * size;
-    int index2 = (rand () % n_mem) * size;
+    int index1, index2;
 
     while (!sorted (list, compar, size, n_mem)){
-        swap (list + index1, list + index2, size);
         index1 = (rand () % n_mem) * size;
         index2 = (rand () % n_mem) * size;
+        swap (list + index1, list + index2, size);
     }
 }
 
