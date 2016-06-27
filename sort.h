@@ -18,19 +18,20 @@ typedef void *heap_t;
 typedef long long int sign;
 
 /*sorting functions*/
-void bubble_sort (void *list, comparator_t compar, size_t size, size_t n_mem);
-void merge_sort  (void *list, comparator_t compar, size_t size, size_t base, size_t n_mem);
-void bogo_sort   (void *list, comparator_t compar, size_t size, size_t n_mem);
-void select_sort (void *list, comparator_t compar, size_t size, size_t n_mem);
-void count_sort  (int *list, size_t n_mem);
-void heap_sort   (void *list, comparator_t compar, size_t size, size_t n_mem);
+void merge_sort    (void *list, comparator_t compar, size_t size, size_t base, size_t n_mem);
+void bubble_sort   (void *list, comparator_t compar, size_t size, size_t n_mem);
+void bogo_sort     (void *list, comparator_t compar, size_t size, size_t n_mem);
+void select_sort   (void *list, comparator_t compar, size_t size, size_t n_mem);
+void heap_sort     (void *list, comparator_t compar, size_t size, size_t n_mem);
+void cocktail_sort (void *list, comparator_t compar, size_t size, size_t n_mem);
+void count_sort    (int *list, size_t n_mem);
 
 /*helper functions*/
 void swap       (void *x, void *y, size_t size);
 void merge      (void *list, comparator_t compar, size_t size, size_t base, size_t mid, size_t last);
 int sorted      (void *list, comparator_t compar, size_t size, size_t n_mem);
-int max_of_list (int *list, size_t n_mem);
 heap_t new_heap (void *list, comparator_t compar, size_t size, size_t n_mem);
+int max_of_list (int *list, size_t n_mem);
 
 /*comparison functions*/
 /*NOTE: THESE MAY ALL BE PASSED INTO new_comparator() or passed directly into sorting functions*/
