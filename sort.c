@@ -1,7 +1,7 @@
 /***************************************************************
 
-Sorting library that implements various generic sorting 
-algorithms
+Sorting library that implements various generic and non-
+generic algorithms
 
 
 Authors: Christian Tuton, Elias Flores
@@ -251,4 +251,24 @@ heap_t new_heap (void *list, int (*compar)(void *arg1, void *arg2), size_t size,
     }
 
     return heap;
+}
+
+void cocktail_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
+{
+    int i,j,k;
+    n_mem *= size;
+    size_t mid = n_mem / 2;
+
+    for (i = 0; i < mid; i += size){
+        for (j = i; j < n_mem - size - i; j += size){
+            if (compar (list + j, list + j + size)){
+                swap (list + j, list + j + size, size);
+            }
+        }
+        for (k = j - size; k > i; k -= size){
+            if (!compar (list + k, list + k - size)){
+                swap (list + k, list + k - size, size);
+            }
+        }
+    }
 }
