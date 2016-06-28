@@ -27,6 +27,7 @@ void swap (void *x, void *y, size_t size)
     memcpy (y, tmp, size);
 }
 
+// helper function to bogo sort
 void seed_rand ()
 {
     #ifndef _RAND_
@@ -154,7 +155,7 @@ int sorted (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size
     return 1;
 }
 
-/** Count Sort
+/** Counting Sort
 * @param list  -- the list to be sorted
 * @param n_mem -- the number of items in the list
 */
@@ -192,7 +193,7 @@ int max_of_list (int *list, size_t n_mem)
     return max;
 }
 
-/** Select Sort
+/** Selection Sort
 * @param list   -- the list to be sorted
 * @param compar -- the comparison function to compare items in the list
 * @param size   -- the size in bytes of the items in the list
@@ -253,6 +254,12 @@ heap_t new_heap (void *list, int (*compar)(void *arg1, void *arg2), size_t size,
     return heap;
 }
 
+/** Cocktail Shaker Sort
+* @param list   -- the list to be sorted
+* @param compar -- the comparison function to compare items in the list
+* @param size   -- the size in bytes of the items in the list
+* @param n_mem  -- the number of items in the list
+*/
 void cocktail_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
 {
     int i,j,k;
@@ -269,6 +276,30 @@ void cocktail_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t si
             if (!compar (list + k, list + k - size)){
                 swap (list + k, list + k - size, size);
             }
+        }
+    }
+}
+
+/** Comb Sort
+* @param list   -- the list to be sorted
+* @param compar -- the comparison function to compare items in the list
+* @param size   -- the size in bytes of the items in the list
+* @param n_mem  -- the number of items in the list
+*/
+void comb_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
+{
+    size_t gap = n_mem * size;
+    size_t i;
+    float shrink = 1.3; //suggested shrink factor
+
+    while (gap != size){
+        gap = size * ((size_t)(gap / (size * shrink)));
+        if (gap < size)
+            gap = size;
+
+        for (i = 0; i + gap < n_mem * size; i += size){
+            if (compar (list + i, list + i + gap))
+                swap (list + i, list + i + gap, size);
         }
     }
 }
