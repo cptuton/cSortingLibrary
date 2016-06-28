@@ -317,36 +317,26 @@ void quicksort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, 
 }
 
 // Helper function for quicksort. NOTE will observe worst behavior for already sorted lists
-// TODO: fix function so it actually friggen works
+// TODO: Optimize function for worst-case
 int partition(void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t base, size_t n_mem)
 {
     int i = base;
     int j = n_mem - 1;
 
-    while (1) {
-        for (; i <= n_mem && !(compar(list + (size * i), list + (size * base))); i++);
-        for (; j >= base && compar(list + (size * j), list + (size * base)); j--);
-        if (i >= j)
-            return j;
-        swap(list + i, list + j, size);
-    }
- /*   int i = base;
-    int j = n_mem - 1;
-
     while(i != j) {
-
         for (; j > i; j--) {
             if (compar(list + (size * i), list + (size * j))) {
-                swap(list + i, list + j, size);
+                swap(list + (i * size), list + (j * size), size);
                 break;
             }
         }
+
         for (; i < j; i++) {
             if (compar(list + (size * i), list + (size * j))) {
-                swap(list + i, list + j, size);
+                swap(list + (i * size), list + (j * size), size);
                 break;
             }
         }
     }
-    return j;*/
+    return j;
 }
