@@ -24,6 +24,7 @@ void bogo_sort     (void *list, comparator_t compar, size_t size, size_t n_mem);
 void select_sort   (void *list, comparator_t compar, size_t size, size_t n_mem);
 void heap_sort     (void *list, comparator_t compar, size_t size, size_t n_mem);
 void cocktail_sort (void *list, comparator_t compar, size_t size, size_t n_mem);
+void comb_sort     (void *list, comparator_t compar, size_t size, size_t n_mem);
 void count_sort    (int *list, size_t n_mem);
 
 /*helper functions*/
