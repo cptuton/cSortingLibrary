@@ -26,6 +26,7 @@ void heap_sort     (void *list, comparator_t compar, size_t size, size_t n_mem);
 void cocktail_sort (void *list, comparator_t compar, size_t size, size_t n_mem);
 void comb_sort     (void *list, comparator_t compar, size_t size, size_t n_mem);
 void count_sort    (int *list, size_t n_mem);
+void quicksort      (void *list, comparator_t compar, size_t size, size_t base, size_t n_mem);
 
 /*helper functions*/
 void swap       (void *x, void *y, size_t size);
@@ -33,6 +34,7 @@ void merge      (void *list, comparator_t compar, size_t size, size_t base, size
 int sorted      (void *list, comparator_t compar, size_t size, size_t n_mem);
 heap_t new_heap (void *list, comparator_t compar, size_t size, size_t n_mem);
 int max_of_list (int *list, size_t n_mem);
+int partition(void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t base, size_t n_mem);
 
 /*comparison functions*/
 /*NOTE: THESE MAY ALL BE PASSED INTO new_comparator() or passed directly into sorting functions*/

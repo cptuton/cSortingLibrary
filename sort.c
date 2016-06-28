@@ -1,17 +1,13 @@
 /***************************************************************
-
 Sorting library that implements various generic and non-
 generic algorithms
-
-
 Authors: Christian Tuton, Elias Flores
-
 File: sort.c
 Date: Summer 2016
-
 ***************************************************************/
 
 #include "sort.h"
+#include <stdio.h>
 #include <time.h>
 
 /** Generic swap function
@@ -302,4 +298,55 @@ void comb_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, 
                 swap (list + i, list + i + gap, size);
         }
     }
+}
+
+/** Quicksort
+* @param list   -- the list to be sorted
+* @param compar -- the comparison function to compare items in the list
+* @param size   -- the size in bytes of the items in the list
+* @param base   -- the starting index of the list
+* @param n_mem  -- the number of items in the list (not the last index!)
+*/
+void quicksort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t base, size_t n_mem)
+{
+    if (base < n_mem) {
+        int p = partition(list, compar, size, base, n_mem);
+        quicksort(list, compar, size, base, p);
+        quicksort(list, compar, size, p + 1, n_mem);
+    }
+}
+
+// Helper function for quicksort. NOTE will observe worst behavior for already sorted lists
+// TODO: fix function so it actually friggen works
+int partition(void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t base, size_t n_mem)
+{
+    int i = base;
+    int j = n_mem - 1;
+
+    while (1) {
+        for (; i <= n_mem && !(compar(list + (size * i), list + (size * base))); i++);
+        for (; j >= base && compar(list + (size * j), list + (size * base)); j--);
+        if (i >= j)
+            return j;
+        swap(list + i, list + j, size);
+    }
+ /*   int i = base;
+    int j = n_mem - 1;
+
+    while(i != j) {
+
+        for (; j > i; j--) {
+            if (compar(list + (size * i), list + (size * j))) {
+                swap(list + i, list + j, size);
+                break;
+            }
+        }
+        for (; i < j; i++) {
+            if (compar(list + (size * i), list + (size * j))) {
+                swap(list + i, list + j, size);
+                break;
+            }
+        }
+    }
+    return j;*/
 }
