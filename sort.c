@@ -39,9 +39,9 @@ void seed_rand ()
 */
 void bubble_sort (void *list, int (compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
 {
-    int i, j;
+    size_t i, j;
 
-    n_mem = n_mem * size;
+    n_mem *= size;
 
     for (i = 0; i < n_mem; i += size){
         for (j = n_mem - size; j > i; j -= size){
@@ -72,9 +72,9 @@ void merge_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size,
 // helper function to merge_sort ()
 void merge (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t base, size_t mid, size_t last)
 {
-    int n1 = ((mid - base) + 1) * size;
-    int n2 = (last - mid) * size;
-    int i, j, k;
+    size_t n1 = ((mid - base) + 1) * size;
+    size_t n2 = (last - mid) * size;
+    size_t i, j, k;
 
     mid *= size;
     base *= size;
@@ -127,7 +127,7 @@ void bogo_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, 
     #define _RAND_
     #endif
 
-    int index1, index2;
+    size_t index1, index2;
 
     while (!sorted (list, compar, size, n_mem)){
         index1 = (rand () % n_mem) * size;
@@ -139,7 +139,7 @@ void bogo_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, 
 // helper function to bogo_sort ()
 int sorted (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
 {
-    int i;
+    size_t i;
     size_t max = size * n_mem;
 
     for (i = 0; i < max - size; i += size){
@@ -157,11 +157,11 @@ int sorted (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size
 */
 void count_sort (int *list, size_t n_mem)
 {
-    int length = max_of_list (list, n_mem);
+    size_t length = max_of_list (list, n_mem);
     int tmp[length + 1];
     memset (tmp, 0, sizeof (int) * length);
 
-    int i, j, k;
+    size_t i, j, k;
 
     for (i = 0; i < length; i++){
         tmp[list[i]]++;
@@ -178,7 +178,7 @@ void count_sort (int *list, size_t n_mem)
 //helper function to count_sort ()
 int max_of_list (int *list, size_t n_mem)
 {
-    int i;
+    size_t i;
     int max = list[0];
 
     for (i = 1; i < n_mem; i++){
@@ -197,7 +197,7 @@ int max_of_list (int *list, size_t n_mem)
 */
 void select_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
 {
-    int i, j, min;
+    size_t i, j, min;
     n_mem *= size;
 
     for (i = 0; i < n_mem; i += size){
@@ -219,7 +219,7 @@ void select_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size
 void heap_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
 {
     heap_t heap = new_heap (list, compar, size, n_mem);
-    int i, j;
+    size_t i, j;
 
     for (i = n_mem * size - size, j = 0; i >= 0; i -= size, j += size){
         memcpy (list + j, heap, size); // put first element from heap onto list
@@ -227,12 +227,14 @@ void heap_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, 
 
         heap = new_heap (heap, compar, size, n_mem - (j / size));
     }
+    
+    free (heap);
 }
 
 /*creates new heap with order imposed by compar*/
 heap_t new_heap (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
 {
-    int i, j;
+    size_t i, j;
 
     heap_t heap = malloc (n_mem * size);
     assert (heap);
@@ -258,7 +260,7 @@ heap_t new_heap (void *list, int (*compar)(void *arg1, void *arg2), size_t size,
 */
 void cocktail_sort (void *list, int (*compar)(void *arg1, void *arg2), size_t size, size_t n_mem)
 {
-    int i,j,k;
+    size_t i,j,k;
     n_mem *= size;
     size_t mid = n_mem / 2;
 
